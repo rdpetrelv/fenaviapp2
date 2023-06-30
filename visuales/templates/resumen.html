@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+
+{% endblock scripts %}
+
+{% block content %}
+
+<div class="container text-center m-2">
+    <h1> <b>  Resumen del ciclo </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.nombre }} {{ user.apellido }} ! </h5>
+<h5> A continuación se muestra el resumen de las medidas para el ciclo {{ultimo_ciclo_mortalidad}} de mortalidad hasta la semana {{ultima_semana_ciclo_mortalidad}} y el ciclo {{ultimo_ciclo_alimento}} de evolucion de peso y CA hasta la semana {{ultima_semana_ciclo_alimento}}</h5>
+</div>
+
+
+
+
+<div class="card mb-3 text-center m-2">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+                        <tr>
+                <td> Saldo de Aves machos  </td>
+                <td> {{machos_aves_final|floatformat:"g"}} </td>
+                <td> {{objetivo_aves_actual_machos|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_aves_actual_machos > machos_aves_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif machos_aves_final > objetivo_aves_actual_machos  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}  
+                </td>
+            </tr>
+            <tr>
+                <td> Saldo de Aves hembras </td>
+                <td> {{hembras_aves_final|floatformat:"g"}} </td>
+                <td>  {{objetivo_aves_actual_hembras|floatformat:"g"}}</td>
+                <td> 
+                    {% if objetivo_aves_actual_hembras > hembras_aves_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif hembras_aves_final > objetivo_aves_actual_hembras  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}   
+                </td>
+            </tr>
+        </tbody>        
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> Saldo de Aves mixtos</td>
+                <td> {{mixto_aves_final|floatformat:"g"}} </td>
+                <td> {{objetivo_aves_actual_mixto|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_aves_actual_mixto > mixto_aves_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif mixto_aves_final > objetivo_aves_actual_mixto  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+<div class="card mb-3 text-center m-2"> 
+<table class="table table-striped align-middle">
+    <thead>
+        <tr class="table-secondary">
+            <th scope="col">Nombre de la medida</th>
+            {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                {% if ultima_semana_ciclo_alimento == 6 %}
+                    <th scope="col">Valor final</th>
+                    <th scope="col">Meta final</th> 
+                {% else %}
+                <th scope="col">Valor actual</th>
+                <th scope="col">Meta actual</th>
+                {% endif %}
+            {% endif %}
+            <th scope="col">Desempeño</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        <tr>
+
+            
+            <tr>
+                <td> Tasa de mortalidad machos </td>
+                <td> {{machos_porcentaje_actual}}% </td>
+                <td> 4.20% </td>
+                <td> 
+                    {% if machos_porcentaje_actual > 5.5  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif 4.2 > machos_porcentaje_actual  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %} 
+                </td>
+            </tr>
+            <tr>
+                <td> Tasa de mortalidad hembras </td>
+                <td> {{hembras_porcentaje_actual}}% </td>
+                <td> 4.20% </td>
+                <td> 
+                    {% if hembras_porcentaje_actual > 5.5  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif 4.2 > hembras_porcentaje_actual  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %} 
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> Tasa de mortalidad mixta </td>
+                <td> {{mixto_porcentaje_actual}}%</td>
+                <td> 4.20% </td>
+                <td> 
+                    {% if mixto_porcentaje_actual > 5.5  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif 4.2 > mixto_porcentaje_actual  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %} 
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td> Peso machos (g)</td>
+                <td> {{machos_peso_final|floatformat:"g"}} </td>
+                <td> {{objetivo_peso_actual_machos|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_peso_actual_machos > machos_peso_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif machos_peso_final > objetivo_peso_actual_machos  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> Peso hembras (g) </td>
+                <td> {{hembras_peso_final|floatformat:"g"}} </td>
+                <td> {{objetivo_peso_actual_hembras|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_peso_actual_hembras > hembras_peso_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif hembras_peso_final > objetivo_peso_actual_hembras  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td > Peso mixto (g) </td>
+                <td> {{mixto_peso_final|floatformat:"g"}} </td>
+                <td> {{objetivo_peso_actual_mixto|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_peso_actual_mixto > mixto_peso_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif mixto_peso_final > objetivo_peso_actual_mixto  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- Nueva tabla para ganancia de peso -->
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td> Ganancia de peso machos (g)</td>
+                <td> {{ganancia_total_machos|floatformat:"1g"}} </td>
+                <td> {{meta_machos|floatformat:"1g"}} </td>
+                <td> 
+                    {% if meta_machos > ganancia_total_machos  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif ganancia_total_machos > meta_machos  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> Ganancia de peso hembras (g) </td>
+                <td> {{ganancia_total_hembras|floatformat:"1g"}} </td>
+                <td> {{meta_hembras|floatformat:"1g"}} </td>
+                <td> 
+                    {% if meta_hembras > ganancia_total_hembras  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif ganancia_total_hembras > meta_hembras  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td > Ganancia de peso mixto (g) </td>
+                <td> {{ganancia_total_mixto|floatformat:"1g"}} </td>
+                <td> {{meta_mixto|floatformat:"1g"}} </td>
+                <td> 
+                    {% if meta_mixto > ganancia_total_mixto  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif ganancia_total_mixto > meta_mixto  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td> CA machos </td>
+                <td> {{machos_CA_final|floatformat:"2g"}} </td>
+                <td> {{objetivo_conversion_actual_machos|floatformat:"2g"}} </td>
+                <td> 
+                    {% if objetivo_conversion_actual_machos < machos_CA_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif machos_CA_final < objetivo_conversion_actual_machos  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> CA hembras </td>
+                <td> {{hembras_CA_final|floatformat:"2g"}} </td>
+                <td> {{objetivo_conversion_actual_hembras|floatformat:"2g"}} </td>
+                <td> 
+                    {% if objetivo_conversion_actual_hembras < hembras_CA_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif hembras_CA_final < objetivo_conversion_actual_hembras  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %} 
+                </td>
+            </tr> 
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> CA mixto </td>
+                <td> {{mixto_CA_final|floatformat:"2g"}} </td>
+                <td> {{objetivo_conversion_actual_mixto|floatformat:"2g"}} </td>
+                <td> 
+                    {% if objetivo_conversion_actual_mixto < mixto_CA_final  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif mixto_CA_final < objetivo_conversion_actual_mixto  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td> IP machos</td>
+                <td> {{ultimo_ip_usuario_machos}} </td>
+                <td> 100.00 </td>
+                <td> 
+                    {% if objetivo_IP_regular > ultimo_ip_usuario_machos  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif ultimo_ip_usuario_machos > objetivo_IP_bueno  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}  
+                </td>
+            </tr>
+            <tr>
+                <td> IP hembras</td>
+                <td> {{ultimo_ip_usuario_hembras}} </td>
+                <td> 100.00 </td>
+                <td> 
+                    {% if objetivo_IP_regular > ultimo_ip_usuario_hembras  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif ultimo_ip_usuario_hembras > objetivo_IP_bueno  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}  
+                </td>
+            </tr>
+
+        </tbody>
+
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> IP mixto </td>
+                <td> {{ultimo_ip_usuario_mixto}} </td>
+                <td> 100.00 </td>
+                <td> 
+                    {% if objetivo_IP_regular > ultimo_ip_usuario_mixto  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                    {% elif ultimo_ip_usuario_mixto > objetivo_IP_bueno  %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                    {% else %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                    {% endif %}  
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+{% endblock content %}

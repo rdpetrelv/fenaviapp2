@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+<!-- {% block title %}Home{% endblock title %} -->
+
+{% block content %}
+
+<div class="card mb-3">
+    <div class="row g-0">
+        <div>
+            {% if user.is_authenticated %}
+                <div class="card-body"> 
+                    <h5 class="card-title">Hola {{ user.first_name }} {{ user.last_name }} !</h5>
+                    <p>
+                        En este espacio podrás consultar tus medidas de desempeño para el ciclo actual:
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'mortalidad' %}"> <b>Tasa de mortalidad </b></a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'peso' %}"> <b>Evolución de peso </b></a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'ganancia' %}"> <b>Ganancia de peso </b></a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'conversion' %}"><b> Conversión alimenticia </b></a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'indiceproductividad' %}"> <b>Índice de productividad </b></a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'resumen' %}"><b> Resumen del ciclo </b></a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card-body m-2">
+                    <h5 class="card-title"> Iniciar sesión</h5>
+                    <p>
+                        Por favor inicia sesión para consultar tus medidas
+                    </p>
+                    {% if error %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                    <p class="card-text m-1">
+                        <form method="POST" class="row gy-2 gx-3 align-items-center">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Iniciar sesión
+                            </button>
+                        </form>
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

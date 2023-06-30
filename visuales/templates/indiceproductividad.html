@@ -1,0 +1,466 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+<script>
+    // jquery function
+
+    $(document).ready(function(){
+        var Chart_ip_evolucion_ultimos_ciclos_machosCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_machos').getContext('2d');
+        var Chart_ip_evolucion_ultimos_ciclos_machos = new Chart(Chart_ip_evolucion_ultimos_ciclos_machosCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for ciclo in ciclos_posibles %} {{ciclo}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'IP',
+                    fill: false,
+                    data: [ {% for ip in ip_ciclos_posibles_machos %} {{ip}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 5,
+                    pointHitRadius : 15,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Ciclos'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var Chart_ip_evolucion_ultimos_ciclos_mixtoCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_mixto').getContext('2d');
+        var Chart_ip_evolucion_ultimos_ciclos_mixto = new Chart(Chart_ip_evolucion_ultimos_ciclos_mixtoCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for ciclo in ciclos_posibles %} {{ciclo}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'IP',
+                    fill: false,
+                    data: [ {% for ip in safcm %} {{ip}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 5,
+                    pointHitRadius : 15,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Ciclos'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var Chart_ip_evolucion_ultimos_ciclos_hembrasCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_hembras').getContext('2d');
+        var Chart_ip_evolucion_ultimos_ciclos_hembras = new Chart(Chart_ip_evolucion_ultimos_ciclos_hembrasCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for ciclo in ciclos_posibles_hembras %} {{ciclo}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'IP',
+                    fill: false,
+                    data: [ {% for ip in ip_ciclos_posibles_hembras %} {{ip}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 5,
+                    pointHitRadius : 15,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Ciclos'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var Chart_ip_comparativa_machos_integrantesCtx = document.getElementById('Chart_ip_comparativa_machos_integrantes').getContext('2d');
+        var Chart_ip_comparativa_machos_integrantes = new Chart(Chart_ip_comparativa_machos_integrantesCtx, {
+            type: 'bar',
+            data: {
+                labels: [ {% for productor in productores_machos %} '{{productor}}', {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'IP ciclo actual',
+                    data: [ {% for ip in ip_productores_machos %} {{ip}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 3,
+                    pointHitRadius : 15,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }]
+                }
+            }
+        });
+        var Chart_ip_comparativa_hembras_integrantesCtx = document.getElementById('Chart_ip_comparativa_hembras_integrantes').getContext('2d');
+        var Chart_ip_comparativa_hembras_integrantes = new Chart(Chart_ip_comparativa_hembras_integrantesCtx, {
+            type: 'bar',
+            data: {
+                labels: [ {% for productor in productores_hembras %} '{{productor}}', {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'IP ciclo actual',
+                    data: [ {% for ip in ip_productores_hembras %} {{ip}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 3,
+                    pointHitRadius : 15,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks : {
+                            font:{
+                                weight : 'bold'
+                            },
+                            color : 'red',
+                        }
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }]
+                }
+            }
+        });
+        labels1 = [ {% for produc in productores_mixto %} '{{produc}}', {%endfor%}];
+        
+        var Chart_ip_comparativa_mixto_integrantesCtx = document.getElementById('Chart_ip_comparativa_mixto_integrantes').getContext('2d');
+        var Chart_ip_comparativa_mixto_integrantes = new Chart(Chart_ip_comparativa_mixto_integrantesCtx, {
+            type: 'bar',
+            data: {
+                labels: labels1, //loop through queryset, 
+                datasets: [{
+                    label: 'IP ciclo actual',
+                    data: [ {% for ip in ip_productores_mixtos %} {{ip|floatformat:"2"}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 3,
+                    pointHitRadius : 15,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        ticks: {
+                            color: 'blue',
+                        }
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }]
+                }
+            }
+        });
+    });
+
+
+
+</script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+
+<div class="container text-center m-2">
+    <h1> <b>  Índice de productividad </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
+<h5> A continuación se muestra el índice de productividad para los ultimos 6 ciclos la comparativa con otros productores para el ciclo actual.</h5>
+</div>
+{{ productor }}
+<!-- displaying the chart -->
+<!-- you can also play around with the width and height to increase or decrease the chart size -->
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP mixto últimos 6 ciclos</b></h5>
+    <div class="container text-center">
+        <canvas id="Chart_ip_evolucion_ultimos_ciclos_mixto" width="300" height="300"></canvas>
+    </div>
+    <h5> </h5>
+</div>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP machos últimos 6 ciclos</b></h5>
+    <div class="container text-center">
+        <canvas id="Chart_ip_evolucion_ultimos_ciclos_machos" width="300" height="300"></canvas>
+    </div>
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP hembras últimos 6 ciclos</b></h5>
+    <div class="container text-center">
+        <canvas id="Chart_ip_evolucion_ultimos_ciclos_hembras" width="300" height="300"></canvas>
+    </div>
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP comparativa mixto ciclo {{ultimo_ciclo_ciclos_produccion}}</b></h5>
+    <div class="chartBox text-center">
+        <canvas id="Chart_ip_comparativa_mixto_integrantes" width="300" height="300"></canvas>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_mixto|floatformat:"2g"}}</b></button>
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100.00 </b> </button>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            {% if objetivo_IP_regular > ultimo_ip_usuario_mixto  %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+            {% elif ultimo_ip_usuario_mixto > objetivo_IP_bueno  %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+            {% else %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+            {% endif %}
+        </div>
+    </div>
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP comparativa machos ciclo {{ultimo_ciclo_ciclos_produccion}}</b></h5>
+    <div class="container text-center">
+        <canvas id="Chart_ip_comparativa_machos_integrantes" width="300" height="300"></canvas>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_machos|floatformat:"2g"}} </b></button>
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100.00 </b></button>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            {% if objetivo_IP_regular > ultimo_ip_usuario_machos  %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+            {% elif ultimo_ip_usuario_machos > objetivo_IP_bueno  %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+            {% else %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+            {% endif %}
+        </div>
+    </div>
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP comparativa hembras ciclo {{ultimo_ciclo_ciclos_produccion}}</b></h5>
+    <div class="chartBox text-center">
+        <canvas id="Chart_ip_comparativa_hembras_integrantes" width="300" height="300"></canvas>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_hembras|floatformat:"2g"}}</b></button>
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100.00 </b></button>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            {% if objetivo_IP_regular > ultimo_ip_usuario_hembras  %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+            {% elif ultimo_ip_usuario_hembras > objetivo_IP_bueno  %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+            {% else %}
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+            {% endif %}
+        </div>
+    </div>
+    <h5> </h5>
+</div>
+
+
+
+
+{% endblock content %}
+
+
+

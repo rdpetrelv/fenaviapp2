@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+<script>
+    // jquery function
+
+    $(document).ready(function(){
+        var grafico_conversion_mixtoCtx = document.getElementById('grafico_conversion_mixto').getContext('2d');
+        var grafico_conversion_mixto = new Chart(grafico_conversion_mixtoCtx, {
+            data: {
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    type: 'line',
+                    label: 'Conversión Alimenticia mixto',
+                    fill: false,
+                    data: [{% for row in mixto_CA_semanas %} {{row}},{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3,
+                    pointHitRadius : 15,
+                },{
+                    type: 'line',
+                    label: 'Meta de CA',
+                    fill: false,
+                    data: [{% for obj in objetivo_conversion_alimento_mixto %} {{obj}},{% endfor %}],
+                    borderColor: '#27E58B',
+                    backgroundColor: '#27E58B',
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
+                }
+            ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var grafico_conversion_machosCtx = document.getElementById('grafico_conversion_machos').getContext('2d');
+        var grafico_conversion_machos = new Chart(grafico_conversion_machosCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'Conversión Alimenticia machos',
+                    fill: false,
+                    data: [ {% for row in machos_CA_semanas %} {{row}} ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3,
+                    pointHitRadius : 15,
+                },{
+                    type: 'line',
+                    label: 'Meta de CA',
+                    fill: false,
+                    data: [{% for obj in objetivo_conversion_alimento_machos %} {{obj}},{% endfor %}],
+                    borderColor: '#27E58B',
+                    backgroundColor: '#27E58B',
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var grafico_conversion_hembrasCtx = document.getElementById('grafico_conversion_hembras').getContext('2d');
+        var grafico_conversion_hembras = new Chart(grafico_conversion_hembrasCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'Conversión Alimenticia hembras',
+                    fill: false,
+                    data: [ {% for row in hembras_CA_semanas %} {{row}} ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3,
+                    pointHitRadius : 15,
+                },{
+                    type: 'line',
+                    label: 'Meta de CA',
+                    fill: false,
+                    data: [{% for obj in objetivo_conversion_alimento_hembras %} {{obj}},{% endfor %}],
+                    borderColor: '#27E58B',
+                    backgroundColor: '#27E58B',
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+    });
+
+
+
+</script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+<div class="container text-center m-2">
+    <h1> <b>  Conversión Alimenticia </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.nombre }} {{ user.apellido }} ! </h5>
+<h5> A continuación se muestra la Conversión Alimenticia, CA,  para el ciclo actual</h5>
+<h5> La raza de este ciclo es {{raza_ultimo_ciclo}} y los dias finales del ciclo fueron {{dias_ultimo_ciclo}}.</h5>
+</div>
+
+
+<!-- displaying the chart -->
+<!-- you can also play around with the width and height to increase or decrease the chart size -->
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Conversión Alimenticia mixto ciclo {{ultimo_ciclo_alimento}}</b></h5>
+    <div class="container text-center">
+        <canvas id="grafico_conversion_mixto" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+                <button class="btn btn-outline-success btn-m"><b>CA final mixto: {{ mixto_CA_final|floatformat:"2g"}}</b></button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-m"><b>Meta CA mixto: {{ objetivo_conversion_final_mixto|floatformat:"2g"}}</b> </button>
+            </div>
+            
+        </div>
+        {% if ultima_semana_ciclo_alimento != 6 %}
+            <div class="row m-2">
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-m"><b>CA actual mixto: {{ mixto_CA_final|floatformat:"2g"}}</b></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual CA mixto: {{objetivo_conversion_actual_mixto|floatformat:"2g"}}</b> </button>
+                </div>
+                
+            </div>
+        {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if mixto_CA_final >  objetivo_conversion_final_mixto %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" >
+                {% elif objetivo_conversion_final_mixto > mixto_CA_final  %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" >                    
+                {% else %}                    
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" >                    
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+    <h5> </h5>    
+        
+    
+
+</div>
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Conversión Alimenticia machos ciclo {{ultimo_ciclo_alimento}}</b></h5>
+    <div class="container text-center">
+        <canvas id="grafico_conversion_machos" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+                <button class="btn btn-outline-success btn-m"><b>CA final machos: {{ machos_CA_final|floatformat:"2g"}}</b></button>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-success btn-m"><b>Meta CA machos: {{ objetivo_conversion_final_machos|floatformat:"2g"}} </b></button>
+            </div>
+            
+        </div>
+        {% if ultima_semana_ciclo_alimento != 6 %}
+            <div class="row m-2">
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-m"><b>CA actual machos: {{ machos_CA_final|floatformat:"2g"}}</b></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual CA machos: {{objetivo_conversion_actual_machos|floatformat:"2g"}}</b> </button>
+                </div>
+                
+            </div>
+        {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_conversion_final_machos < machos_CA_final  %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" > 
+                {% elif machos_CA_final < objetivo_conversion_final_machos  %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                {% else %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" >
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div> 
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Conversión Alimenticia hembras ciclo {{ultimo_ciclo_alimento}}</b></h5>
+    <div class="container text-center">
+        <canvas id="grafico_conversion_hembras" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+                <button class="btn btn-outline-success btn-m"><b>CA final hembras: {{ hembras_CA_final|floatformat:"2g"}}</b></button>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-success btn-m"><b>Meta CA hembras: {{ objetivo_conversion_final_hembras|floatformat:"2g"}} </b></button>
+            </div>
+            
+        </div>
+        {% if ultima_semana_ciclo_alimento != 6 %}
+            <div class="row m-2">
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-m"><b>CA actual hembras: {{ hembras_CA_final|floatformat:"2g"}}</b></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual CA hembras: {{objetivo_conversion_actual_hembras|floatformat:"2g"}}</b> </button>
+                </div>
+                
+            </div>
+        {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_conversion_final_hembras < hembras_CA_final  %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Bad-rooster.png" width="80" >
+                {% elif hembras_CA_final < objetivo_conversion_final_hembras  %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Excellent-rooster.png" width="80" > 
+                {% else %}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Good-rooster.png" width="80" > 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>    
+    <h5> </h5>
+</div>
+
+
+{% endblock content %}
